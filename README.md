@@ -45,7 +45,7 @@ pip install --editable .
 ```
 
 ## Run
-In your terminal with your shell (virtual environment) activated:
+In your terminal (in any directory):
 ```bash
 food_truck
 ```
