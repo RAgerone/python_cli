@@ -2,58 +2,68 @@ import click
 import requests
 from datetime import datetime
 from terminaltables import AsciiTable
+from colorama import Fore, Back, Style, init
 from time import gmtime, strftime
-
-
-
-
 
 url = "https://data.sfgov.org/resource/jjew-r69b.json"
 
 @click.command()
-@click.option('--time', default=1, prompt='The time you want to get food in format HH:MM', help='The time you would like food today')
-@click.option('--date', prompt='The date you want to get food in format MMDD',
-              help='The date you want food')
 
+def get_trucks():
+    """Gets all the San Fransisco food trucks that are open now"""
 
+    def _add_elements(truck, table_data):
+        """
+        Appends truck data onto a table for consumption
+        :param truck:
+        :param table_data:
+        :return:
+        """
+        table_data.append([truck["applicant"], truck["location"]])
 
-def get_trucks(time=None, date=None):
-    """Simple program that greets NAME for a total of COUNT times."""
+    init(autoreset=True)
 
-    # query params dayorder=5 gives friday
+    click.echo('Welcome to the Food Truck Finder!\n')
 
-    # if not time and not date:
-    def add_elements(truc, table_data):
-        table_data.append([truck["applicant"], truck['location']])
-        click.echo(truck)
-        table = AsciiTable(table_data)
-        click.echo(table)
     current_datetime = datetime.now()
-
+    click.echo(f"Today is {(current_datetime.strftime('%A %d. %B %Y %H:%m'))}")
+    day = current_datetime.isoweekday()
+    if day == 7:
+        day = 0
     payload = {
-        "dayorder": current_datetime.weekday(),
-        '$where': ['banana',
-            f"start24 < '{current_datetime.strftime('%H:%m')}'",
-            f"end24 > '{current_datetime.strftime('%H:%m')}'"
-    ],
-        "$order":"applicant"
+        "dayorder":day,
+        "$order":"applicant",
+        "$where":f"start24 < '{(current_datetime.strftime('%H:%m'))}' and \
+        end24 > '{(current_datetime.strftime('%H:%m'))}'",
     }
-    click.echo(payload)
-    r = requests.get(url, params=None)
-    click.echo(r.url)
+    r = requests.get(url, params=payload)
     table_data = [
         ['Name', 'Address']
     ]
-    click.echo(url)
-    start = 0
-    ten_more = True
-    click.echo(r)
-    for truck in r.json():
-        add_elements(truck, table_data)
-        start += 1
-        if start%10 == 0:
-            table = AsciiTable(table_data)
-            click.echo(table)
+    click.echo(r.url)
+    if r.status_code == requests.codes.ok:
+        start = 0
+        length=len(r.json())
+        for truck in r.json():
+            _add_elements(truck, table_data)
+            start += 1
+            if start == length:
+                table = AsciiTable(table_data)
+                click.echo(table.table)
+            if start%10 == 0:
+                table = AsciiTable(table_data)
+                click.echo(Fore.MAGENTA + (table.table))
+                value = click.prompt('Would you like the next 10 trucks? (y/n)', type=str)
+                if value.lower() == 'n':
+                    click.echo('Thank you for using the Food Truck Finder!')
+                    break
+                else:
+                    table_data = [
+                        ['Name', 'Address']
+                    ]
 
+
+    else:
+        click.echo('There has been an error.  Please try again later.')
 
     # display name and address alphabetically by name
