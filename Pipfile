@@ -7,6 +7,7 @@ name = "pypi"
 click = "*"
 requests = "*"
 terminaltables = "*"
+colorama = "*"
 
 [dev-packages]
 
