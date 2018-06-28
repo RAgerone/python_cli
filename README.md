@@ -18,7 +18,9 @@ A CLI made using [Python](Welcome to Python.org), [Click](http://click.pocoo.org
 [Colorama](https://pypi.org/project/colorama/) for style.
 
 ## Setup
-__In the main directory in your terminal run this command__
+__Clone this repository.__
+
+__In the main directory (python_cli) in your terminal run this command__
 
 ```bash
 pipenv install
@@ -37,9 +39,9 @@ pipenv shell
 ```
 
 ## Build
-
+Do this in your terminal in the directory that has setup.py:
 ```bash
-pipenv install --editable .
+pip install --editable .
 ```
 
 ## Run
