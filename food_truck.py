@@ -48,10 +48,10 @@ def get_trucks():
             start += 1
             if start == length:
                 table = AsciiTable(table_data)
-                click.echo(table.table)
+                click.echo(Fore.MAGENTA + table.table)
             if start%10 == 0:
                 table = AsciiTable(table_data)
-                click.echo(Fore.MAGENTA + (table.table))
+                click.echo(Fore.MAGENTA + table.table)
                 value = click.prompt('Would you like the next 10 trucks? (y/n)', type=str)
                 if value.lower() == 'n':
                     click.echo('Thank you for using the Food Truck Finder!')
