@@ -40,7 +40,6 @@ def get_trucks():
     table_data = [
         ['Name', 'Address']
     ]
-    click.echo(r.url)
     if r.status_code == requests.codes.ok:
         start = 0
         length=len(r.json())
