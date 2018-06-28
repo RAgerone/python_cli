@@ -3,6 +3,11 @@
 ## About
 If you're hungry, we can find a food truck for you.
 
+       .--------.__
+       |TACOS!::|[_I__
+       |.-.____I__.-~|
+       `(_)-------(_)
+
 
 This food truck CLI will render the first ten food trucks in San Francisco that are open now in alphabetical order.  
 After the first ten are rendered in a table, you will receive a prompt asking if you would like to see the next ten 
