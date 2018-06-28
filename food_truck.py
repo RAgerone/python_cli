@@ -15,7 +15,7 @@ def get_trucks():
     def _add_elements(truck, table_data):
         """
         Appends truck data onto a table for consumption
-        :param truck:
+        :param truck: JSON object
         :param table_data:
         :return:
         """
